@@ -1,0 +1,53 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Ticaret</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h3 {
+            font-size: 16px;
+        }
+        #adet {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% for kategori, yemekler in yemekler_gruplu.items %}
+        <h2 class="text-center">{{ kategori|kategori_display }}</h2>
+            <ul class="list-group">
+                {% for yemek in yemekler %}
+                    <li class="list-group-item">
+                        <h3>{{ yemek.isim }}</h3>
+                        <p class="mb-1">Fiyat: {{ yemek.fiyat }}</p>
+                        <p class="mb-1">İçerik: {{ yemek.icerik }}</p>
+                        <form method="POST" action="{% url 'sepete_ekle' yemek.id %}">
+                            {% csrf_token %}
+                            <div class="form-row align-items-center">
+                                <div class="col-auto">
+                                    <label for="adet">Adet:</label>
+                                    <input type="number" class="form-control" id="adet" name="adet" value="1" min="1">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Sepete Ekle</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        <a href="{% url 'sepeti_goster' %}" class="btn btn-primary mt-3">Sepete Git</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+</body>
+</html>
+

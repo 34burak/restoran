@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sepet</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h1, h2, label {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sepet</h1>
+        <ul class="list-group">
+            {% for urun in sepet_urunler %}
+                <li class="list-group-item">
+                    {{ urun.yemek.isim }} - Adet: {{ urun.adet }} - Fiyat: {{ urun.yemek.fiyat }} - Tutar: {{ urun.tutar }}
+                    <a href="{% url 'sil' urun.yemek_id %}" class="btn btn-danger btn-sm float-right">Sil</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Toplam Tutar: {{ toplam_tutar }}</h3>
+
+        <h2>Sipariş Bilgileri</h2>
+        <form method="POST" action="{% url 'siparis_ver' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="telefon">Telefon:</label>
+                <input type="text" class="form-control" id="telefon" name="telefon" required>
+            </div>
+            <div class="form-group">
+                <label for="adres">Adres:</label>
+                <textarea class="form-control" id="adres" name="adres" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="notlar">Notlar:</label>
+                <textarea class="form-control" id="notlar" name="notlar"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Sipariş Ver</button>
+        </form>
+
+        <a href="{% url 'anasayfa' %}" class="btn btn-secondary mt-3">Siparişe Devam Et</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
